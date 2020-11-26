@@ -5,8 +5,6 @@ const App = () => {
         <>
             <h1>Hello Numan</h1>
             <h1>Hello Numan</h1>
-            <h1>Hello Numan</h1>
-            <h1>Hello </h1>
         </>
     );
 }
