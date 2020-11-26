@@ -3,7 +3,11 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
+import postRoutes from './routes/post.js';
+
 const app = express();
+
+app.use('/posts', postRoutes);
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
@@ -24,7 +28,7 @@ mongoose.connect(MONGODB_URL, {
         console.log("Error in with MongoDB ", err);
     });
 
-mongoose.set('useFindAndModify', false); //To prevent warnings at console
+mongoose.set('useFindAndModify', false); //To prevent DB warnings at console
 
 app.listen(PORT, () => {
     console.log('App Started at Port: ', PORT);
