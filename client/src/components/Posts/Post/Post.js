@@ -17,7 +17,7 @@ const Post = ({ post, setCurrentId }) => {
                     <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
                 </div>
                 <div className={classes.overlay2}>
-                    <Button style={{ color: 'white' }} size="small" onClick={() => setCurrentId(post._id) }>
+                    <Button style={{ color: 'white' }} size="small" onClick={() => setCurrentId(post._id)}>
                         <MoreHorizIcon fontSize="default" />
                     </Button>
                 </div>
@@ -26,8 +26,9 @@ const Post = ({ post, setCurrentId }) => {
                         {post.tag.map((tag) => `# ${tag} `)}
                     </Typography>
                 </div>
+                <Typography className={classes.title} variant="h5" gutterBottom> {post.title} </Typography>
                 <CardContent>
-                    <Typography className={classes.title} variant="h5" gutterBottom> {post.message} </Typography>
+                    <Typography variant="h5" gutterBottom> {post.message} </Typography>
                 </CardContent>
                 <CardActions className={classes.cardActions}>
                     <Button size="small" color="primary" onClick={() => { }}>
