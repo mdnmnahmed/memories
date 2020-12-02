@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import FileBase from 'react-file-base64';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +9,11 @@ import { createPosts, updatePosts } from '../../actions/posts';
 const Form = ({ currentId, setCurrentId }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const posts = useSelector((state) => currentId ? state.posts);
+    const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId) : null);
+
+    useEffect(() => {
+        if (post) setPostData(post);
+    }, [post]);
 
     const [postData, setPostData] = useState({
         creator: '',
@@ -27,17 +31,26 @@ const Form = ({ currentId, setCurrentId }) => {
         } else {
             dispatch(createPosts(postData))
         }
+
+        clear();
     }
 
     const clear = () => {
-
+        setCurrentId(null);
+        setPostData({
+            creator: '',
+            title: '',
+            message: '',
+            tags: '',
+            selectedFile: '',
+        });
     }
 
     return (
         <>
             <Paper className={classes.paper}>
                 <form onSubmit={handleSubmit} autoComplete="off" noValidate className={`${classes.root} ${classes.form}`}>
-                    <Typography variant="h6">Creating a Momory</Typography>
+                    <Typography variant="h6">{currentId ? 'Edit' : 'Create'} Momory</Typography>
                     <TextField variant="outlined" label="Creator" fullWidth
                         name="creator"
                         value={postData.creator}
@@ -60,8 +73,10 @@ const Form = ({ currentId, setCurrentId }) => {
                     />
                     <div className={classes.fileInput}>
                         <FileBase
+                            name="selectedFile"
                             type="file"
                             multiple={false}
+                            value={postData.selectedFile}
                             onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })}
                         />
                     </div>
